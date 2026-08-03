@@ -1,0 +1,55 @@
+% ------------------------------------------------------------------ %
+% Shared Persian (XePersian) preamble.  Compile with:  xelatex        %
+% ------------------------------------------------------------------ %
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage[table,dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+
+\tcbuselibrary{skins,breakable}
+
+\newcommand{\userfonts}{C:/Users/victus/AppData/Local/Microsoft/Windows/Fonts/}
+
+\usepackage{xepersian}                      % must be loaded LAST
+\settextfont[Path=\userfonts, Extension=.ttf, Scale=1.0]{Yas}
+\setlatintextfont[Scale=0.92]{Latin Modern Roman}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{قضیه}[section]
+\newtheorem{lemma}[theorem]{لم}
+\newtheorem{proposition}[theorem]{گزاره}
+\newtheorem{corollary}[theorem]{نتیجه}
+\newtheorem{definition}[theorem]{تعریف}
+\newtheorem{example}[theorem]{مثال}
+\newtheorem{remark}[theorem]{نکته}
+\renewcommand{\proofname}{اثبات}
+
+\newcommand{\sig}{\sigma}
+\newcommand{\ehat}{\hat{e}}
+\newcommand{\mhat}{\hat{m}}
+\newcommand{\rbar}{\bar{\rho}}
+\newcommand{\mbar}{\bar{m}}
+
+\newtcolorbox{answer}[1][]{
+  breakable, colback=black!4, colframe=black!45, boxrule=0.5pt,
+  left=6pt, right=6pt, top=5pt, bottom=5pt, #1}
+
+\newtcolorbox{keybox}[1][]{
+  breakable, colback=Goldenrod!12, colframe=Goldenrod!70!black,
+  boxrule=0.6pt, left=6pt, right=6pt, top=5pt, bottom=5pt, #1}
+
+\newtcolorbox{findbox}[1][]{
+  breakable, colback=RedOrange!8, colframe=RedOrange!70!black,
+  boxrule=0.6pt, left=6pt, right=6pt, top=5pt, bottom=5pt, #1}
+
+\captionsetup{font=small}
+\setlength{\parskip}{4pt}
+\linespread{1.15}
