@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# training artefacts: only the checkpoints the analysis anchors on are tracked
+runs/*.pt.partial
+runs/logs/
+
+# analysis scratch output; the scripts regenerate all of it
+analysis/*.txt
+analysis/*.json
+analysis/*.npy
+analysis/_*.log
+analysis/_*.err
+
+# LaTeX build products
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+*.vrb
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+.DS_Store
+Thumbs.db
