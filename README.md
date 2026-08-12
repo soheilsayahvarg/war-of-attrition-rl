@@ -184,8 +184,10 @@ Board score across four uploads, with the correction that produced each:
 | 2 | trained on the reconstructed 6-opponent pool; denial term removed | 56.8 |
 | 3 | patient archetypes restored to the pool | 58.8 |
 | 4 | opponent-behaviour features (19 total) | **61.7** |
+| 5 | retargeted at the graded criterion; seats spliced | 58.3 |
 
-Every number above is measured on the real leaderboard, not estimated.
+Every number above is measured on the real leaderboard, not estimated. Upload
+5 is the shipped checkpoint and is deliberately *lower* here — see below.
 
 The shipped checkpoint is a different one, chosen on the graded criterion.
 Each candidate is scored *alone* in the reconstructed field — the real
@@ -195,20 +197,55 @@ seeds:
 
 | Checkpoint | Board | 4 exact references | Margin over `TitForTat` |
 |---|---|---|---|
-| board leader (upload 4) | 61.7 | 51.7 | −1.9 |
-| `of_s3`, τ = 1.5 | 59.4 | 46.3 | +7.1 |
-| `gx_a` (seat graft) | 63.4 | 56.9 | +8.6 |
-| **shipped** (`gx_b`, seat graft) | **63.6** | **57.4** | **+8.7** |
+| board leader (upload 4) | **61.7** | 51.7 | −1.9 |
+| `of_s3`, τ = 1.5 | 59.4* | 46.3 | +7.1 |
+| `gx_a` (seat graft) | 63.4* | 56.9 | +8.6 |
+| **shipped** (`final_graft`, seat graft) | 58.3 | **57.4** | **+8.7** |
 
-Every earlier candidate sat on a trade-off curve, where roughly 0.8 board
-points bought 2 tournament points. `gx_b` is not on that curve: it beats the
-board leader on the board *and* wins the tournament comfortably. Its Iran
-seat comes from `og_s2` (τ = 3), its U.S. seat from `oh_s2` (τ = 5).
+The "4 exact references" column is measured. Board figures are the real
+published ones for the two uploaded checkpoints; starred values are
+estimates — and the estimator turned out not to be trustworthy.
 
-That also disposes of an ambiguity in the submission platform, which keeps
-each student's *best* upload. Since `gx_b` also scores higher on the board,
-it is the checkpoint that enters the graded run whether the tournament is
-seeded from the best upload or the most recent one.
+### The board estimator failed, exactly where its own header said it would
+
+It predicted 63.6 for the shipped checkpoint. The board returned 58.3.
+
+| slot | predicted | actual | error |
+|---|---|---|---|
+| 4 exact references, Iran | 65.3 | 65.30 | +0.00 |
+| 4 exact references, U.S. | 49.4 | 49.45 | +0.05 |
+| soft (Dove+BT), Iran | 83.0 | 82.35 | −0.65 |
+| **soft (Dove+BT), U.S.** | 68.9 | **38.15** | **−30.75** |
+
+The exactly-measured two thirds landed on the decimal; the entire 5.3-point
+error came from one interpolated number. `select2.py`'s header had already
+recorded that the proxy saturates above PROXY_U ≈ 37 — this checkpoint sat at
+37.1, between anchors reading 68.9 and 80.0, and the true value was 38.2. So
+the proxy is not merely imprecise up there, it is uninformative. The estimate
+column is retired; selection now runs on the exact slots only.
+
+So the shipped checkpoint **is** a trade-off after all: 3.4 board points down,
+10.6 tournament points up. The board carries no marks and the tournament
+carries half the implementation grade, so the trade is taken deliberately —
+and "beat Tit-for-Tat" still holds in both places (58.3 vs 53.8 on the board,
++8.7 in the tournament).
+
+### What *does* predict exactly: seat decomposition
+
+No agent plays itself in the reference pool, so the Iran-seat and U.S.-seat
+games are disjoint, and a spliced checkpoint inherits its Iran parent's board
+Iran score and its U.S. parent's board U.S. score verbatim. That is
+arithmetic, not a fit — and the board confirmed it. The consequence is a hard
+ceiling:
+
+| | best Iran | best U.S. |
+|---|---|---|
+| `bh_s2` | **72.9** | **50.4** |
+| `og_s2_t3` / `oh_s2_t5` | 71.0 | 45.7 |
+
+The best board score reachable by splicing anything measured here is
+(72.9 + 50.4)/2 = 61.7 — which is `bh_s2` itself. Beating it needs a new run
+with a better seat, not a better combination of these.
 
 ## Layout
 

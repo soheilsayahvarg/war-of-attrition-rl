@@ -96,7 +96,53 @@ ANCHORS = {
     "runs/final_v4.pt": {"soft": (82.9, 39.8), "board": 56.8},
     "runs/bp_s4.pt": {"soft": (84.25, 68.9), "board": 58.8},
     "runs/bh_s2.pt": {"soft": (83.15, 80.0), "board": 61.7},
+    "runs/final_graft.pt": {"soft": (82.35, 38.15), "board": 58.3},
 }
+
+# ------------------------------------------------------------------ #
+# THE EST COLUMN IS RETIRED. Rank on TRUSTED.
+# ------------------------------------------------------------------ #
+# The fifth anchor is the one that settles it. Predicted and actual, for
+# the fifth upload:
+#
+#     slot                    predicted   actual    error
+#     TRUSTED Iran (4 exact)      65.3     65.30    +0.00
+#     TRUSTED U.S.  (4 exact)     49.4     49.45    +0.05
+#     SOFT Iran (proxy)           83.0     82.35    -0.65
+#     SOFT U.S.  (proxy)          68.9     38.15   -30.75
+#
+# The exactly-measured two thirds landed on the decimal. The whole 5.3-point
+# error in the final score came from one interpolated number being wrong by
+# thirty. The header above had already said why: at PROXY_U ~ 37 the proxy is
+# saturated. This checkpoint sat at 37.1, and the real soft references scored
+# its U.S. seat 38.2 where the anchors either side of it scored 68.9 and 80.0.
+#
+# So the proxy does not merely lose resolution up there -- it is uninformative
+# there. Two checkpoints it cannot tell apart (37.1 vs 37.5) differ by 42
+# points on the thing being predicted. No monotone map from PROXY_U to SOFT_U
+# exists, and interpolating one produced a number that was not merely
+# imprecise but qualitatively wrong: it said this checkpoint would beat the
+# board leader when in fact it lost to it by 3.4.
+#
+# Rank candidates on TRUSTED, which is measured exactly on two thirds of the
+# board's weight. Treat the soft slots as unknown rather than estimated.
+#
+# What DOES predict exactly: seat decomposition. A reference agent never
+# plays itself, so an agent's Iran-seat games and U.S.-seat games are
+# disjoint (analysis/splice.py). A spliced checkpoint therefore inherits its
+# Iran parent's board Iran score and its U.S. parent's board U.S. score, with
+# no interaction. That is arithmetic, not a fit -- and it is now confirmed on
+# the board: the fifth upload's row is exactly og_s2_t3's Iran seat and
+# oh_s2_t5's U.S. seat.
+#
+# The practical consequence is a hard ceiling. The measured seats we own are
+#
+#     board Iran:  bh_s2 72.9,  og_s2_t3 71.0
+#     board U.S.:  bh_s2 50.4,  oh_s2_t5 45.7
+#
+# so the best board score reachable by splicing anything we have measured is
+# (72.9 + 50.4) / 2 = 61.7 -- which is bh_s2 itself. Beating it needs a new
+# run with a better seat, not a better combination of these.
 
 # WHERE THIS ESTIMATE STOPS BEING USEFUL, stated plainly. The fourth anchor
 # lands almost exactly on top of the third in proxy space and nowhere near
