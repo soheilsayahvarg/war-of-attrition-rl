@@ -151,6 +151,29 @@ be Iran-strong and U.S.-weak, the grafted checkpoint's +11.2 collapses to
 −7.7, and sharpening flips from noise (+2.5 / −1.1 across two seeds) to a
 real +2.3 on all three.
 
+**Then the same lesson had to be applied to the selection tool itself,**
+which is the mistake worth recording. The seat scan that had picked the
+graft's components ranked them against the *old* opponents. Re-run against
+the reconstructed class field over all 103 checkpoints
+(`analysis/classscan.py`), the best U.S. net is a different agent entirely:
+
+| best U.S. net | old-generation scan | class-field scan |
+|---|---|---|
+| `of_s3` | **59.8** | 32.0 |
+| `oh_s2` | 45.5 | **43.3** |
+
+`oh_s2` had never surfaced in any *whole-checkpoint* ranking because its Iran
+seat is weak (64.8) — which is exactly what a combined score hides. It comes
+from the `official+` pool, an experiment written off hours earlier as failed
+on its aggregate score. The hypothesis was right; the effect was confined to
+one seat.
+
+Grafting that seat onto `og_s2`'s Iran net, with per-seat sharpening tuned
+independently (a 4×4 grid puts the optimum at τ = 3 for Iran, τ = 5 for the
+U.S. — a knob a single checkpoint cannot even express), produces a checkpoint
+that is not a trade-off at all: it beats the board leader on the board *and*
+beats `TitForTat` in the tournament.
+
 ## Results
 
 Board score across four uploads, with the correction that produced each:
@@ -165,20 +188,27 @@ Board score across four uploads, with the correction that produced each:
 Every number above is measured on the real leaderboard, not estimated.
 
 The shipped checkpoint is a different one, chosen on the graded criterion.
-Four candidates in one field, mean of three seeds:
+Each candidate is scored *alone* in the reconstructed field — the real
+tournament contains exactly one of our agents, and putting several in at once
+makes them each other's opponents, which inflates `TitForTat`. Mean of three
+seeds:
 
-| Checkpoint | Board | Margin over `TitForTat` | Rank |
+| Checkpoint | Board | 4 exact references | Margin over `TitForTat` |
 |---|---|---|---|
-| board leader (61.7) | **61.7** | −1.9 | 5–6 |
-| `gr_k` (seat graft) | 61.1 | +3.6 | 3 |
-| `gr_l` (seat graft) | 60.2 | +4.8 | 2 |
-| **shipped** (`of_s3`, τ = 1.5) | 59.4 | **+8.0** | **1 on all three seeds** |
+| board leader (upload 4) | 61.7 | 51.7 | −1.9 |
+| `of_s3`, τ = 1.5 | 59.4 | 46.3 | +7.1 |
+| `gx_a` (seat graft) | 63.4 | 56.9 | +8.6 |
+| **shipped** (`gx_b`, seat graft) | **63.6** | **57.4** | **+8.7** |
 
-The trade is regular: each 0.8 board points buys about 2 tournament points.
-The board carries no marks and the tournament carries half the implementation
-grade, so the shipped checkpoint gives up the former — while still sitting
-5.6 points above `TitForTat` on the board, so the "beat Tit-for-Tat"
-criterion holds under either reading of where it is measured.
+Every earlier candidate sat on a trade-off curve, where roughly 0.8 board
+points bought 2 tournament points. `gx_b` is not on that curve: it beats the
+board leader on the board *and* wins the tournament comfortably. Its Iran
+seat comes from `og_s2` (τ = 3), its U.S. seat from `oh_s2` (τ = 5).
+
+That also disposes of an ambiguity in the submission platform, which keeps
+each student's *best* upload. Since `gx_b` also scores higher on the board,
+it is the checkpoint that enters the graded run whether the tournament is
+seeded from the best upload or the most recent one.
 
 ## Layout
 
