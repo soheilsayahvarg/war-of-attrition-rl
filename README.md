@@ -131,7 +131,7 @@ no marks.
 Two ideas were tried on top of the corrected objective. Both worked on one
 opponent set and died on another, which is the point:
 
-- **Seat grafting** (`analysis/graft.py`). A checkpoint holds two role
+- **Seat grafting** (`analysis/splice.py`). A checkpoint holds two role
   networks and the loader instantiates them independently, so the Iran seat
   and the U.S. seat can come from different runs — the compromise each
   training run makes between them was never required. The seat scores added
