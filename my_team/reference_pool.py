@@ -252,3 +252,46 @@ def _install_patient_archetypes() -> None:
 
 
 _install_patient_archetypes()
+
+
+# --------------------------------------------------------------------- #
+# The pool for the *graded* tournament, which is a different pool again
+# --------------------------------------------------------------------- #
+# The assignment sheet says the class tournament pits each submission
+# against every other submission, the two reference agents (Random and
+# TitForTat) and the instructor benchmark. Hawk, Dove and BayesianThreshold
+# appear only on the practice leaderboard.
+#
+# analysis/official.py simulates that pool and the result is uncomfortable:
+# TitForTat scores 77.9 there and beats every checkpoint we have. On the
+# practice board it scores 53.8, because there it spends its time against
+# Dove and BayesianThreshold rather than against learned agents. A mirroring
+# opponent is weak against scripted pushovers and strong against RL agents
+# that have learned to escalate.
+#
+# So this pool contains only what the graded run contains. The rest of the
+# field is other people's learned agents, which self-play and the snapshot
+# pool already stand in for -- so training with this pool wants a *higher*
+# p_self, not the lower one the practice board rewarded.
+OFFICIAL_BASELINES = {
+    "Random": RandomAgent,
+    "TitForTat": TitForTatAgent,
+}
+
+
+def _install_master():
+    if MASTER.exists():
+        OFFICIAL_BASELINES["MasterAgent"] = _master
+
+
+_install_master()
+
+
+# The graded pool has no opponent that refuses to leave, and a policy
+# trained on it inherits that blind spot: of_s3 scores -58.3 against Hawk in
+# the U.S. seat. That matters, because the graded field is *other students'
+# agents*, and at least one of them will be a never-conceder -- our own
+# final_v4 is exactly that agent. Hawk is not in the graded pool as a
+# scripted baseline, but it is a fair stand-in for the classmates who are.
+OFFICIAL_PLUS_BASELINES = dict(OFFICIAL_BASELINES)
+OFFICIAL_PLUS_BASELINES["Hawk"] = HawkAgent

@@ -43,7 +43,9 @@ from see.training.theory_api import load_theory              # noqa: E402
 from my_team.opponents import EXTRA_BASELINES                # noqa: E402
 from my_team.reference_pool import (BOARD_BASELINES,           # noqa: E402
                                     BOARD_PATIENT_BASELINES,
-                                    BOARD_PLUS_BASELINES)
+                                    BOARD_PLUS_BASELINES,
+                                    OFFICIAL_BASELINES,
+                                    OFFICIAL_PLUS_BASELINES)
 
 
 def install_pool(mode: str) -> dict:
@@ -69,6 +71,14 @@ def install_pool(mode: str) -> dict:
         # board+ overshot; this is the rebalanced version. See the note
         # above BOARD_PATIENT_BASELINES.
         pool = dict(BOARD_PATIENT_BASELINES)
+    elif mode == "official":
+        # exactly the graded tournament's scripted opponents; the rest of
+        # that field is learned agents, which self-play stands in for.
+        pool = dict(OFFICIAL_BASELINES)
+    elif mode == "official+":
+        # the graded scripted pool plus a never-conceder, which stands in
+        # for the classmates who will submit one
+        pool = dict(OFFICIAL_PLUS_BASELINES)
     scripted.BASELINES = pool
     selfplay.BASELINES = pool                     # already imported by name
     return pool
@@ -87,7 +97,7 @@ def main():
     ap.add_argument("--p-scripted", type=float, default=0.80)
     ap.add_argument("--pool",
                     choices=("stock", "rich", "board", "board+",
-                             "board+p"),
+                             "board+p", "official", "official+"),
                     default="rich")
     ap.add_argument("--resume", default=None)
     ap.add_argument("--save-every", type=int, default=150_000,

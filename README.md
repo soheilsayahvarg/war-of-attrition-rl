@@ -4,15 +4,19 @@ A reinforcement-learning agent for a **multi-stage war of attrition with
 incomplete information**, built for the Game Theory course at Sharif
 University of Technology (CE, Spring 2025–26).
 
-The agent finished **1st among students** on the class leaderboard, scoring
+The agent reached **1st among students** on the class practice leaderboard,
 above both reference marks the rubric sets:
 
 | | Score | as Iran | as U.S. |
 |---|---|---|---|
-| **This agent** | **61.7** | 72.9 | 50.4 |
+| **This project's best board checkpoint** | **61.7** | 72.9 | 50.4 |
 | Instructor benchmark (`MasterAgent`) | 56.3 | 65.7 | 46.9 |
 | `TitForTat` baseline | 53.8 | 69.7 | 37.9 |
 | `Hawk` baseline | 51.5 | 71.9 | 31.2 |
+
+That is not the checkpoint that ships here, and the reason is the most
+interesting result in the project — see *The scoring rule was not what the
+leaderboard shows* below.
 
 Score is mean raw utility against the reference pool, averaged over both
 roles on a common seed list.
@@ -102,13 +106,50 @@ pinned σ = 0.75 for 96% of stages and never took the exit — was invisible in
 aggregate score and obvious the moment behaviour was measured against a
 passive opponent (`analysis/sigprofile.py`, `analysis/seat_probe.py`).
 
-**5. Report what failed.** Five hypotheses were falsified by data and all
-five are in the report, including two I had already announced as working.
-The final section quantifies how much of the winning score was seed luck:
-the shipped checkpoint sits **1.5σ above the mean of its own 14-checkpoint
-family** (min 51.5, median 58.7, σ = 2.33), so a good part of 61.7 is a
-favourable draw rather than method. Twelve further checkpoints across five
-distinct interventions failed to beat it.
+**5. Report what failed.** Eight hypotheses were falsified by data and all
+eight are in the report, including three I had already announced as working.
+One section quantifies how much of the leading board score was seed luck:
+that checkpoint sits **1.5σ above the mean of its own 14-checkpoint family**
+(min 51.5, median 58.7, σ = 2.33), so a good part of 61.7 is a favourable
+draw rather than method.
+
+## The scoring rule was not what the leaderboard shows
+
+The leaderboard scores against 5 scripted baselines plus the instructor
+benchmark. The *graded* tournament is a round robin over every submission,
+**2** reference agents (`Random`, `Tit-for-Tat`) and the benchmark — Hawk,
+Dove and BayesianThreshold are practice-only. Those are different objectives,
+and on this problem they disagree sharply: a mirroring opponent is weak
+against scripted pushovers and strong against RL agents that have learned to
+escalate, so `TitForTat` scores 53.8 on the board and ~84 in the tournament.
+
+**The board leader loses the graded criterion.** The 61.7 checkpoint, first
+among students, finishes *below* `TitForTat` in a simulated graded run.
+Everything tuned against the board had been optimising a rank that carries
+no marks.
+
+Two ideas were tried on top of the corrected objective. Both worked on one
+opponent set and died on another, which is the point:
+
+- **Seat grafting** (`analysis/graft.py`). A checkpoint holds two role
+  networks and the loader instantiates them independently, so the Iran seat
+  and the U.S. seat can come from different runs — the compromise each
+  training run makes between them was never required. The seat scores added
+  *exactly*, taking the margin over `TitForTat` from +1.7 to +11.2.
+- **Policy sharpening** (`analysis/sharpen.py`). The tournament constructs
+  agents with `sample=True`, hard-coded, so a policy is never evaluated at
+  its argmax. Scaling the actor head by τ is exactly a softmax temperature of
+  1/τ: the ordering of legal actions, and therefore the maximising policy, is
+  unchanged — only the noise around it shrinks.
+
+**What settled it was the leaderboard itself, not a better simulation.** The
+board publishes *both seat scores* for every student who has uploaded, so the
+graded field does not have to be guessed: each classmate is stood in for by
+whichever checkpoint lands nearest their published two-seat profile
+(`analysis/classfield.py`). Against that field every classmate turns out to
+be Iran-strong and U.S.-weak, the grafted checkpoint's +11.2 collapses to
+−7.7, and sharpening flips from noise (+2.5 / −1.1 across two seeds) to a
+real +2.3 on all three.
 
 ## Results
 
@@ -122,6 +163,22 @@ Board score across four uploads, with the correction that produced each:
 | 4 | opponent-behaviour features (19 total) | **61.7** |
 
 Every number above is measured on the real leaderboard, not estimated.
+
+The shipped checkpoint is a different one, chosen on the graded criterion.
+Four candidates in one field, mean of three seeds:
+
+| Checkpoint | Board | Margin over `TitForTat` | Rank |
+|---|---|---|---|
+| board leader (61.7) | **61.7** | −1.9 | 5–6 |
+| `gr_k` (seat graft) | 61.1 | +3.6 | 3 |
+| `gr_l` (seat graft) | 60.2 | +4.8 | 2 |
+| **shipped** (`of_s3`, τ = 1.5) | 59.4 | **+8.0** | **1 on all three seeds** |
+
+The trade is regular: each 0.8 board points buys about 2 tournament points.
+The board carries no marks and the tournament carries half the implementation
+grade, so the shipped checkpoint gives up the former — while still sitting
+5.6 points above `TitForTat` on the board, so the "beat Tit-for-Tat"
+criterion holds under either reading of where it is measured.
 
 ## Layout
 
