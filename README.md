@@ -123,10 +123,17 @@ and on this problem they disagree sharply: a mirroring opponent is weak
 against scripted pushovers and strong against RL agents that have learned to
 escalate, so `TitForTat` scores 53.8 on the board and ~84 in the tournament.
 
-**The board leader loses the graded criterion.** The 61.7 checkpoint, first
-among students, finishes *below* `TitForTat` in a simulated graded run.
-Everything tuned against the board had been optimising a rank that carries
-no marks.
+**Board rank is not graded rank.** The two orderings disagree: the 61.7
+checkpoint that leads the board scores 71.0 in a simulated graded run while
+`TitForTat` scores 84.1. Everything tuned against the board had been
+optimising a rank that carries no marks.
+
+(An early version of that simulation, run when only five students had
+uploaded, had the board leader finishing *below* `TitForTat`. On the final
+18-submission field it does not — it comes third at +8.8. The switch to the
+shipped checkpoint was an improvement, +14.5 and first place, not a rescue
+from defeat. The small-field number was an artefact and is corrected here
+rather than quietly dropped.)
 
 Two ideas were tried on top of the corrected objective. Both worked on one
 opponent set and died on another, which is the point:
