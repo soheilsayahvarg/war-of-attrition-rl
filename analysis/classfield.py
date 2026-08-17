@@ -61,18 +61,39 @@ from my_team.reference_pool import HawkAgent, MASTER            # noqa: E402
 # Stand-ins are picked by nearest published-profile match; the estimates come
 # from analysis/select2_profiles.txt and analysis/select2.txt.
 STAND_INS = [
+    ("402105943", 78.3, 46.0, "runs/bh_s2.pt"),            # est 72.9 / 50.4
     ("401107613", 75.0, 48.5, "runs/bh_s2.pt"),            # est 72.9 / 50.4
+    ("402170902", 78.2, 44.3, "runs/bp_s4.pt"),            # est 71.3 / 46.3
+    ("402105619", 77.0, 44.9, "runs/bp_s4.pt"),            # est 71.3 / 46.3
+    ("402106167", 74.7, 44.0, "runs/final_v4.pt"),         # est 71.7 / 42.0
+    ("401106617", 71.4, 42.8, "runs/final_v4.pt"),         # est 71.7 / 42.0
+    ("401106511", 70.0, 43.2, "runs/final_v4.pt"),         # est 71.7 / 42.0
+    ("99109409", 76.0, 35.2, "runs/board_reference.pt"),   # est 72.3 / 33.4
     ("402111164", 75.2, 36.0, "runs/board_reference.pt"),  # est 72.3 / 33.4
     ("400104986", 79.0, 30.8, None),                       # Hawk 71.9 / 31.2
-    ("403110636", 63.4, 36.5, "runs/final_v4.pt"),         # est 71.7 / 42.0
+    ("402106423", 76.5, 32.2, None),                       # Hawk 71.9 / 31.2
+    ("403110636", 76.2, 31.0, None),                       # Hawk 71.9 / 31.2
+    ("400105036", 75.2, 28.9, None),                       # Hawk 71.9 / 31.2
+    ("402111323", 69.7, 36.5, "runs/board_reference.pt"),  # est 72.3 / 33.4
+    ("402106037", 66.0, 36.3, "runs/board_reference.pt"),  # est 72.3 / 33.4
+    ("99101065", 65.8, 35.8, "runs/board_reference.pt"),   # est 72.3 / 33.4
+    ("402106564", 64.7, 36.3, "runs/board_reference.pt"),  # est 72.3 / 33.4
 ]
-# Match quality, stated rather than buried: the first three are good (within
-# ~3 points on both seats). The fourth is not -- 403110636 sits at 63.4 /
-# 36.5 and the nearest thing in our zoo is 8 points too strong in the Iran
-# seat and 5 too strong in the U.S. seat, because every checkpoint here
-# clusters in Iran 69-73 / U.S. 42-50. That stand-in is therefore harder
-# than the student it represents, which biases the simulated table
-# *against* our candidate rather than for it.
+# Seventeen classmates, from the board of 2026-08-16 -- the field is no
+# longer a guess about five students but the real roster minus ourselves.
+#
+# Each is stood in for by whichever agent available here is nearest their
+# published two-seat profile. Match quality, stated rather than buried: the
+# U.S. column is what separates these students (28.9 to 48.5) and the
+# stand-ins track it to within ~4 points, which is the axis that matters,
+# because a round robin pairs our U.S. seat against their Iran seat and vice
+# versa. The Iran column is matched worse -- our zoo clusters at 71-73 while
+# the real spread is 64.7 to 79.0 -- so the simulated opponents are slightly
+# too uniform there.
+#
+# Duplicates are deliberate: several students genuinely have near-identical
+# published profiles, and a round robin cares about the distribution of
+# opponents, not their names.
 
 
 def main():
@@ -85,15 +106,19 @@ def main():
     a = ap.parse_args()
 
     entries = {}
+    cache = {}
     for name, _, _, rel in STAND_INS:
         if rel is None:
             entries["[class] %s ~Hawk" % name] = HawkAgent()
         else:
             p = ROOT / rel
-            if p.exists():
-                entries["[class] %s" % name] = CheckpointAgent(str(p))
-            else:
+            if not p.exists():
                 sys.stderr.write("missing stand-in %s\n" % rel)
+                continue
+            # several students share a stand-in; build each net once
+            if rel not in cache:
+                cache[rel] = CheckpointAgent(str(p))
+            entries["[class] %s" % name] = cache[rel]
     if MASTER.exists():
         entries["[benchmark] MasterAgent"] = CheckpointAgent(str(MASTER))
 

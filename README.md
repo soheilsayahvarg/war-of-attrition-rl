@@ -142,11 +142,21 @@ opponent set and died on another, which is the point:
   1/τ: the ordering of legal actions, and therefore the maximising policy, is
   unchanged — only the noise around it shrinks.
 
+**Result on the final field: 1st of 21, +14.5 over `TitForTat`.** With all 18
+submissions on the board, the reconstructed graded tournament puts the shipped
+checkpoint first — a wider margin than the +8.7 the earlier five-student model
+predicted, because the field grew and the structural fact below only got more
+pronounced.
+
 **What settled it was the leaderboard itself, not a better simulation.** The
 board publishes *both seat scores* for every student who has uploaded, so the
 graded field does not have to be guessed: each classmate is stood in for by
 whichever checkpoint lands nearest their published two-seat profile
-(`analysis/classfield.py`). Against that field every classmate turns out to
+(`analysis/classfield.py`). Across all 18 submissions, **every single one** is
+stronger as Iran than as the U.S. — Iran spans 64.7–79.0, the U.S. spans
+28.9–48.5, with no exception. The U.S. seat is simply the harder one and
+almost the whole class came up short there. The best U.S. seat on the board is
+ours, and in a round robin that is where the points are. Against that field every classmate turns out to
 be Iran-strong and U.S.-weak, the grafted checkpoint's +11.2 collapses to
 −7.7, and sharpening flips from noise (+2.5 / −1.1 across two seeds) to a
 real +2.3 on all three.
