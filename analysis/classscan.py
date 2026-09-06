@@ -24,7 +24,7 @@ Two things fall out that nothing else measures:
     here even though they cannot contribute a seat to a graft.
 
   * the best Iran net and the best U.S. net *in this field*, which is what a
-    graft should have been built from in the first place. Grafting is
+graft should have been built from at the outset. Grafting is
     restricted to checkpoints sharing the current theory, since the
     checkpoint has room for only one copy of it.
 

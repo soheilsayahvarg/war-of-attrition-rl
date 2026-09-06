@@ -122,7 +122,7 @@ ANCHORS = {
 # points on the thing being predicted. No monotone map from PROXY_U to SOFT_U
 # exists, and interpolating one produced a number that was not merely
 # imprecise but qualitatively wrong: it said this checkpoint would beat the
-# board leader when in fact it lost to it by 3.4.
+# the strongest board checkpoint when in fact it lost to it by 3.4.
 #
 # Rank candidates on TRUSTED, which is measured exactly on two thirds of the
 # board's weight. Treat the soft slots as unknown rather than estimated.

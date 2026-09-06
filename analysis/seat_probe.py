@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """What exactly does a checkpoint DO in one seat against one opponent.
 
-The board says our U.S. seat scores 113.3 against Random with one
+The board says the U.S. seat scores 113.3 against Random with one
 checkpoint and 64.1 with another, and 64.6 against Dove with the first and
 113.1 with the second. Aggregate scores cannot say why. This prints the
 behaviour itself -- signal level, who exits, when, and what the episode

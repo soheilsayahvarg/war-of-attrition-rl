@@ -144,14 +144,13 @@ def main():
     out.append("")
     ours = [r for r in rows if not r["name"].startswith("[baseline]")]
     best = ours[0]
-    out.append("best of ours under this criterion: %s (%.1f)"
+    out.append("best candidate under this criterion: %s (%.1f)"
                % (best["name"], best["score"]))
     board_best = next((r for r in rows if r["name"] == "bh_s2_board61.7"),
                       None)
     if board_best and board_best["name"] != best["name"]:
-        out.append("the practice-board winner (bh_s2, 61.7) ranks #%d here "
-                   "with %.1f" % (rows.index(board_best) + 1,
-                                  board_best["score"]))
+        out.append("the practice-board checkpoint bh_s2 (61.7) scores %.1f here"
+                   % board_best["score"])
         out.append("-> the two criteria disagree; the graded one is this "
                    "table.")
 

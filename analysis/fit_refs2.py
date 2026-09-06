@@ -8,7 +8,7 @@ against one particular opponent, and many parameter settings do that.
 The second upload gave a second row, and the two rows disagree in a way
 that is itself the evidence:
 
-                     our 1st upload      our 2nd upload
+                     upload 1           upload 2
     real Dove        144.4 / 135.9       104.9 /  64.6
     replica Dove     154.8 / 130.6       152.8 / 143.3
 

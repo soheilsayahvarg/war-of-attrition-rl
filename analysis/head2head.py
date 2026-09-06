@@ -44,7 +44,7 @@ MASTER = "benchmarks/master_agent.pt"
 
 # stand-ins for the rest of the class: RL agents from this pipeline, chosen
 # for behavioural spread (one never exits, one exits ~70% by stage 2, one is
-# patient, one is the practice-board winner)
+# patient, one is the practice-board reference)
 OPP_CKPTS = [
     ("bh_s2", "runs/bh_s2.pt"),
     ("final_v4", "runs/final_v4.pt"),

@@ -165,8 +165,8 @@ def main():
     own = (bi["A"] + bi["B"] + bu["C"] + bu["D"]) / 4
     tft = (R1 + R2 + bi["bp"] + bu["dp"]) / 4
     print("\n" + "=" * 70)
-    print(f"best Iran seat : {bi['name']:22s} J_I = {bi['J']:8.1f}")
-    print(f"best U.S. seat : {bu['name']:22s} J_U = {bu['J']:8.1f}")
+    print(f"selected Iran seat : {bi['name']:22s} J_I = {bi['J']:8.1f}")
+    print(f"selected U.S. seat : {bu['name']:22s} J_U = {bu['J']:8.1f}")
     print(f"J_I + J_U = {bi['J'] + bu['J']:.1f}   (need > {target:.1f})")
     print(f"=> you {own:.1f}   TitForTat {tft:.1f}   edge {own - tft:+.1f}")
 

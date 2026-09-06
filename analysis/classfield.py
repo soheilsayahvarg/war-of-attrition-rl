@@ -86,7 +86,7 @@ STAND_INS = [
 # published two-seat profile. Match quality, stated rather than buried: the
 # U.S. column is what separates these students (28.9 to 48.5) and the
 # stand-ins track it to within ~4 points, which is the axis that matters,
-# because a round robin pairs our U.S. seat against their Iran seat and vice
+# because a round robin pairs the U.S. seat against the Iran seat and vice
 # versa. The Iran column is matched worse -- our zoo clusters at 71-73 while
 # the real spread is 64.7 to 79.0 -- so the simulated opponents are slightly
 # too uniform there.

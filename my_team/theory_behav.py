@@ -317,7 +317,7 @@ class EnduranceRaceTheory(TheorySpec):
         # Every feature above summarises the posterior over the opponent's
         # structural type theta_j = (rho_bar, m_bar) -- how much endurance it
         # has and how fast it burns. Three uploads showed that this is not
-        # enough. Our U.S. seat scored 113.3 against Random by pinning
+# enough. The U.S. seat scored 113.3 against Random by pinning
         # sigma = 0.75 and never exiting, and 64.6 against Dove by doing the
         # same thing; the checkpoint that fixed Dove (113.1) dropped Random
         # to 62.1. Two different opponent pools were tried and neither let

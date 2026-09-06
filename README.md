@@ -129,8 +129,8 @@ checkpoint that leads the board scores 71.0 in a simulated graded run while
 optimising a rank that carries no marks.
 
 (An early version of that simulation, run when only five students had
-uploaded, had the board leader finishing *below* `TitForTat`. On the final
-18-submission field it does not — it scores +8.8. The switch to the shipped
+uploaded, had the simulated result *below* `TitForTat`. On the final
+18-submission field it scores +8.8. The switch to the shipped
 checkpoint was an improvement of +14.5 under the graded objective. The
 small-field number was an artefact and is corrected here rather than quietly
 dropped.)
@@ -188,8 +188,8 @@ one seat.
 Grafting that seat onto `og_s2`'s Iran net, with per-seat sharpening tuned
 independently (a 4×4 grid puts the optimum at τ = 3 for Iran, τ = 5 for the
 U.S. — a knob a single checkpoint cannot even express), produces a checkpoint
-that is not a trade-off at all: it beats the board leader on the board *and*
-beats `TitForTat` in the tournament.
+that is not a trade-off at all: it improves the board score and beats
+`TitForTat` in the tournament.
 
 ## Results
 
@@ -214,7 +214,7 @@ seeds:
 
 | Checkpoint | Board | 4 exact references | Margin over `TitForTat` |
 |---|---|---|---|
-| board leader (upload 4) | **61.7** | 51.7 | −1.9 |
+| upload 4 | **61.7** | 51.7 | −1.9 |
 | `of_s3`, τ = 1.5 | 59.4* | 46.3 | +7.1 |
 | `gx_a` (seat graft) | 63.4* | 56.9 | +8.6 |
 | **shipped** (`final_graft`, seat graft) | 58.3 | **57.4** | **+8.7** |

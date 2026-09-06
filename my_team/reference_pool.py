@@ -241,7 +241,7 @@ def _install_patient_archetypes() -> None:
     # eight opponents never leave (Patient, Plateau, DoveSlow), where the
     # real board has two of six (Hawk, and whatever Dove really is). The
     # learner drew the obvious conclusion and started taking the exit as a
-    # default -- our U.S. seat against Random fell 113.3 -> 61.2 and against
+# default -- the U.S. seat against Random fell 113.3 -> 61.2 and against
     # MasterAgent 44.4 -> 20.2, both slots we reproduce *exactly*, so those
     # losses are real and not a reconstruction artefact.
     #
